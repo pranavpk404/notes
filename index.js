@@ -1,16 +1,22 @@
+console.log("Welcome to notes app. This is app.js");
 showNotes();
 
 // If user adds a note, add it to the localStorage
 let addBtn = document.getElementById("addBtn");
-addBtn.addEventListener("click", function () {
+addBtn.addEventListener("click", function (e) {
   let addTxt = document.getElementById("addTxt");
+  let addTitle = document.getElementById("addTitle");
   let notes = localStorage.getItem("notes");
   if (notes == null) {
     notesObj = [];
   } else {
     notesObj = JSON.parse(notes);
   }
-  notesObj.push(addTxt.value);
+  let myObj = {
+    title: addTitle.value,
+    text: addTxt.value,
+  };
+  notesObj.push(myObj);
 
   // CHECKING IF TEXT AREA HAS ANY CONTENT
   if (addTxt.value.length == 0) {
@@ -18,7 +24,10 @@ addBtn.addEventListener("click", function () {
   } else {
     localStorage.setItem("notes", JSON.stringify(notesObj));
   }
+
   addTxt.value = "";
+  addTitle.value = "";
+  //   console.log(notesObj);
   showNotes();
 });
 
@@ -35,8 +44,8 @@ function showNotes() {
     html += `
             <div class="noteCard my-2 mx-2 card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Note ${index + 1}</h5>
-                        <p class="card-text"> ${element}</p>
+                        <h5 class="card-title">${element.title}</h5>
+                        <p class="card-text"> ${element.text}</p>
                         <button id="${index}"onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
                     </div>
                 </div>`;
@@ -51,6 +60,8 @@ function showNotes() {
 
 // Function to delete a note
 function deleteNote(index) {
+  //   console.log("I am deleting", index);
+
   let notes = localStorage.getItem("notes");
   if (notes == null) {
     notesObj = [];
@@ -66,7 +77,7 @@ function deleteNote(index) {
 let search = document.getElementById("searchTxt");
 search.addEventListener("input", function () {
   let inputVal = search.value.toLowerCase();
-
+  // console.log('Input event fired!', inputVal);
   let noteCards = document.getElementsByClassName("noteCard");
   Array.from(noteCards).forEach(function (element) {
     let cardTxt = element.getElementsByTagName("p")[0].innerText;
@@ -75,15 +86,8 @@ search.addEventListener("input", function () {
     } else {
       element.style.display = "none";
     }
+    // console.log(cardTxt);
   });
-});
-
-let clearAll = document.getElementById("clearAll");
-clearAll.addEventListener("click", function () {
-  if (confirm("Are you sure you want to delete all notes?")) {
-    localStorage.clear();
-    notes.innerHTML = `Nothing to show! Use "Add a Note" section above to add notes.`;
-  }
 });
 
 /*
@@ -91,5 +95,5 @@ Further Features:
 1. Add Title
 2. Mark a note as Important
 3. Separate notes by user
-4. Sync and host to web server 
+4. Sync and host to web server
 */
