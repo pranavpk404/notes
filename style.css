@@ -1,0 +1,25 @@
+:root {
+  --var-bg: #161320;
+  --var-color: #b6c3de;
+  --var-border: 2px solid #373050;
+}
+.colors {
+  background-color: var(--var-bg);
+  color: var(--var-color);
+}
+
+#addTitle {
+  background-color: var(--var-bg);
+  color: var(--var-color);
+  border: var(--var-border);
+}
+#addTxt {
+  background-color: var(--var-bg);
+  color: var(--var-color);
+  border: var(--var-border);
+}
+
+.customBorder {
+  border: var(--var-border);
+  border-radius: 10px;
+}
