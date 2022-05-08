@@ -3,34 +3,9 @@ let addTxt = document.getElementById("addTxt");
 let addTitle = document.getElementById("addTitle");
 let notesElm = document.getElementById("notes");
 
-const addNote = () => {
-  let notes = localStorage.getItem("notes");
-  if (notes == null) {
-    notesObj = [];
-  } else {
-    notesObj = JSON.parse(notes);
-  }
-  let myObj = {
-    title: addTitle.value,
-    text: addTxt.value,
-  };
-  notesObj.push(myObj);
-
-  if (addTxt.value.length == 0) {
-    alert("Nothing to Add");
-  } else {
-    localStorage.setItem("notes", JSON.stringify(notesObj));
-  }
-
-  addTxt.value = "";
-  addTitle.value = "";
-  showNotes();
-};
-addBtn.addEventListener("click", addNote);
-
 const showNotes = () => {
   let notes = localStorage.getItem("notes");
-  if (notes == null) {
+  if (notes === null) {
     notesObj = [];
   } else {
     notesObj = JSON.parse(notes);
@@ -46,17 +21,44 @@ const showNotes = () => {
                     </div>
                 </div>`;
   });
-  if (notesObj.length != 0) {
+  if (notesObj.length !== 0) {
     notesElm.innerHTML = html;
   } else {
-    notesElm.innerHTML = `Nothing to show! Use "Add a Note" section above to add notes.`;
+    notesElm.innerHTML =
+      'Nothing to show! Use "Add a Note" section above to add notes.';
   }
 };
+const addNote = () => {
+  let notes = localStorage.getItem("notes");
+  let notesObj;
+  if (notes === null) {
+    notesObj = [];
+  } else {
+    notesObj = JSON.parse(notes);
+  }
+  let myObj = {
+    title: addTitle.value,
+    text: addTxt.value,
+  };
+  notesObj.push(myObj);
+
+  if (addTxt.value.length === 0) {
+    alert("Nothing to Add");
+  } else {
+    localStorage.setItem("notes", JSON.stringify(notesObj));
+  }
+
+  addTxt.value = "";
+  addTitle.value = "";
+  showNotes();
+};
+addBtn.addEventListener("click", addNote);
+
 showNotes();
 
 const deleteNote = (index) => {
   let notes = localStorage.getItem("notes");
-  if (notes == null) {
+  if (notes === null) {
     notesObj = [];
   } else {
     notesObj = JSON.parse(notes);
